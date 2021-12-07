@@ -1,0 +1,15 @@
+@startuml
+
+rectangle "Cut melody" {
+
+(Start application) as SA
+
+:User: --> SA
+SA --> (Select file)
+(Select file) --> (Listen music)
+(Listen music) --> (Select period)
+(Select period) --> (Listen selected)
+(Listen selected) --> (Crop selected)
+(Crop selected) --> (Save file)
+}
+@enduml
