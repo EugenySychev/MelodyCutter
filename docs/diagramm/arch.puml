@@ -1,0 +1,6 @@
+@startuml
+
+[UI] <--> [Sound engine]
+[Sound engine] <--> [Sound editor]
+
+@enduml
