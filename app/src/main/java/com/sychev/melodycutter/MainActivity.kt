@@ -10,9 +10,15 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import com.sychev.melodycutter.databinding.ActivityMainBinding
+import android.content.Intent
+import android.net.Uri
+import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
+
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var m_fileName: Uri
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
@@ -45,9 +51,23 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_open -> {
+                callOpenFileDialog()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun callOpenFileDialog() {
+        val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            if (uri != null) {
+                m_fileName = uri
+            }
+            Log.d("Main", "Item ")
+        }
+
+        getContent.launch("sound/*")
     }
 
     override fun onSupportNavigateUp(): Boolean {
