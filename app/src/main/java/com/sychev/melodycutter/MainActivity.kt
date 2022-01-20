@@ -11,11 +11,16 @@ import android.view.Menu
 import android.view.MenuItem
 import com.sychev.melodycutter.databinding.ActivityMainBinding
 import android.content.Intent
+import android.database.Cursor
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toFile
+import java.nio.channels.InterruptedByTimeoutException
+import android.provider.MediaStore
+import androidx.loader.content.CursorLoader
+import com.sychev.melodycutter.FileUtils.getPath
 
 
 class MainActivity : AppCompatActivity() {
@@ -27,6 +32,10 @@ class MainActivity : AppCompatActivity() {
     private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         if (uri != null) {
             m_fileName = uri
+            val intent =  Intent(this@MainActivity, EditorActivity::class.java)
+            Log.d("MAIN", "Put uri $uri")
+            intent.putExtra("uri", FileUtils.getPath(baseContext, uri))
+            startActivity(intent)
         }
     }
 
@@ -66,7 +75,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun callOpenFileDialog() {
 
-        getContent.launch("image/*")
+        getContent.launch("audio/*")
     }
 
 }
